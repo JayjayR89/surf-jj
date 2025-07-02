@@ -6,6 +6,7 @@ import {
 } from "@/lib/streaming";
 import { SANDBOX_TIMEOUT_MS } from "@/lib/config";
 import { OpenAIComputerStreamer } from "@/lib/streaming/openai";
+import { GeminiComputerStreamer } from "@/lib/streaming/gemini"; // Added import
 import { logError } from "@/lib/logger";
 import { ResolutionScaler } from "@/lib/streaming/resolution";
 
@@ -21,10 +22,18 @@ class StreamerFactory {
 
     switch (model) {
       case "anthropic":
-      // currently not implemented
-      /* return new AnthropicComputerStreamer(desktop, resolutionScaler); */
+        // currently not implemented
+        /* return new AnthropicComputerStreamer(desktop, resolutionScaler); */
+        // Fallthrough to default or handle as error if strict model selection is desired
+        logError("Anthropic model selected but not implemented, defaulting to OpenAI.");
+        return new OpenAIComputerStreamer(desktop, resolutionScaler); // Or throw error
+      case "gemini":
+        return new GeminiComputerStreamer(desktop, resolutionScaler);
       case "openai":
       default:
+        if (model !== "openai") {
+            logWarning(`Unknown model "${model}" selected, defaulting to OpenAI.`);
+        }
         return new OpenAIComputerStreamer(desktop, resolutionScaler);
     }
   }

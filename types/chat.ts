@@ -52,7 +52,9 @@ export interface ActionChatMessage<T extends ComputerModel = ComputerModel>
   role: "action";
   action: T extends "openai"
     ? ResponseComputerToolCall["action"]
-    : ComputerAction;
+    : T extends "gemini"
+    ? ResponseComputerToolCall["action"] // Assuming Gemini's action structure will match OpenAI's for now
+    : ComputerAction; // Fallback for Anthropic or other unhandled models
   status?: "pending" | "completed" | "failed";
   model: ComputerModel;
 }

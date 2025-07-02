@@ -7,7 +7,7 @@ import { ResponseComputerToolCall } from "openai/resources/responses/responses.m
 /**
  * Model types supported by Surf
  */
-export type ComputerModel = "openai" | "anthropic";
+export type ComputerModel = "openai" | "anthropic" | "gemini";
 
 /**
  * SSE event types for client communication
@@ -36,7 +36,9 @@ export interface ActionEvent<T extends ComputerModel> extends BaseSSEEvent {
   type: SSEEventType.ACTION;
   action: T extends "openai"
     ? ResponseComputerToolCall["action"]
-    : ComputerAction;
+    : T extends "gemini"
+    ? ResponseComputerToolCall["action"] // Assuming Gemini's action structure will match OpenAI's for now
+    : ComputerAction; // Fallback for Anthropic or other unhandled models
 }
 
 /**

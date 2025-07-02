@@ -47,6 +47,7 @@ Before starting, you'll need:
 2. [npm](https://www.npmjs.com/) (comes with Node.js)
 3. An [E2B API key](https://e2b.dev/docs/getting-started/api-key)
 4. An [OpenAI API key](https://platform.openai.com/api-keys)
+5. A [Google API key](https://aistudio.google.com/apikey) with the Gemini API enabled.
 
 ## Setup Instructions
 
@@ -68,6 +69,7 @@ Create a `.env.local` file in the root directory based on the provided `.env.exa
 ```env
 E2B_API_KEY=your_e2b_api_key
 OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 4. **Start the development server**
@@ -136,7 +138,7 @@ See `package.json` for a complete list of dependencies.
 ## Troubleshooting
 
 - **Sandbox not starting**: Verify your E2B API key is correct in `.env.local`
-- **AI not responding**: Check that your OpenAI API key is valid and has access to the required models
+- **AI not responding**: Check that your OpenAI API key (or Gemini API key, depending on the selected model) is valid and has access to the required models.
 - **Actions not working**: Ensure the sandbox is running and the AI has proper instructions
 
 ## Contributing
