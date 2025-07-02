@@ -1,5 +1,5 @@
 import { Sandbox } from "@e2b/desktop";
-import { GoogleGenerativeAI, GenerativeModel, Content, Part, FunctionDeclaration, Tool as GeminiTool } from "@google/generative-ai";
+import { GoogleGenAI, GenerativeModel, Content, Part, FunctionDeclaration, Tool as GeminiTool } from "@google/genai"; // Corrected package name and main class
 import { SSEEventType, SSEEvent, ActionResponse, ComputerModel } from "@/types/api";
 import {
   ComputerInteractionStreamerFacade,
@@ -46,7 +46,7 @@ export class GeminiComputerStreamer implements ComputerInteractionStreamerFacade
   public desktop: Sandbox;
   public resolutionScaler: ResolutionScaler;
 
-  private genAI: GoogleGenerativeAI;
+  private genAI: GoogleGenAI; // Corrected type
   private model: GenerativeModel;
 
   constructor(desktop: Sandbox, resolutionScaler: ResolutionScaler) {
@@ -58,7 +58,7 @@ export class GeminiComputerStreamer implements ComputerInteractionStreamerFacade
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY is not set in environment variables.");
     }
-    this.genAI = new GoogleGenerativeAI(apiKey);
+    this.genAI = new GoogleGenAI(apiKey); // Corrected instantiation
     this.model = this.genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
   }
 
