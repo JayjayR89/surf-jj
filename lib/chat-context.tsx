@@ -131,7 +131,27 @@ export function ChatProvider({ children }: ChatProviderProps) {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let errorBody = `HTTP error! status: ${response.status}`;
+        try {
+          // Try to get more details from the response body
+          const text = await response.text();
+          if (text) {
+            // Attempt to parse as JSON if it looks like it, otherwise use raw text
+            try {
+              const jsonError = JSON.parse(text);
+              if (jsonError && jsonError.error) {
+                errorBody += ` - ${jsonError.error}`;
+              } else {
+                errorBody += ` - ${text}`;
+              }
+            } catch (jsonParseException) {
+              errorBody += ` - ${text}`; // Append raw text if not JSON
+            }
+          }
+        } catch (e) {
+          logDebug("Could not read error response body", e);
+        }
+        throw new Error(errorBody);
       }
 
       const reader = response.body?.getReader();

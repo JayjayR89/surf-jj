@@ -2,8 +2,22 @@ import ansis from "ansis";
 
 export const logger = console;
 
-const stringifyArg = (arg: unknown) =>
-  typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg);
+const stringifyArg = (arg: unknown): string => {
+  if (arg instanceof Error) {
+    // For Error objects, include message and optionally stack or name
+    // For server-side logs, stack might be too verbose, but for client-side debugging it's useful.
+    // Let's keep it concise for general logging here.
+    return `Error: ${arg.message}${arg.stack ? `\nStack: ${arg.stack}` : ''}`;
+  }
+  if (typeof arg === "object" && arg !== null) {
+    try {
+      return JSON.stringify(arg, null, 2);
+    } catch (e) {
+      return "[Unserializable Object]";
+    }
+  }
+  return String(arg);
+};
 
 export const logError = (...args: Parameters<typeof console.error>) => {
   console.error(
