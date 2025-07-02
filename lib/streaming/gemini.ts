@@ -66,8 +66,8 @@ export class GeminiComputerStreamer implements ComputerInteractionStreamerFacade
     // Let's start with a recent model that should support function calling.
     // The SDK docs used "gemini-2.0-flash-001" for function calling.
     // The current OpenAI implementation sends images, so a vision-capable model that also does function calling is ideal.
-    // "gemini-1.5-flash-latest" or "gemini-1.5-pro-latest" are good candidates. Let's try flash for now.
-    this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    // User requested "gemini-2.0-flash-exp".
+    this.model = this.genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
   }
 
   async executeAction(actionInfo: { name: string, args: any }): Promise<ActionResponse | object | void> {
